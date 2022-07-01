@@ -1,2 +1,4 @@
-console.log("hello");
-console.log(process.argv);
+import Merger from "./src/Merger";
+
+const merger = new Merger();
+merger.mergeDocument();

@@ -1,0 +1,5 @@
+{
+  "templateDir": "./src/templates",
+  "entry": "./src/test/index.html",
+  "build": "./public/index.html"
+}
