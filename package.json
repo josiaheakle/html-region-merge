@@ -1,8 +1,8 @@
 {
   "name": "html-region-merge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A script built to easily split html documents when working with the Regional Model Framework",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
     "start": "npx tsc"
