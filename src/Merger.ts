@@ -1,6 +1,4 @@
-import { constants } from "buffer";
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
 
 class Merger {
   private config: {
@@ -14,7 +12,7 @@ class Merger {
   }
 
   private _readConfig() {
-    const rootDir = path.dirname(process.env.INIT_CWD);
+    const rootDir = process.env.INIT_CWD;
     let file;
     try {
       file = fs.readFileSync(`${rootDir}/rfm-config.json`, {
