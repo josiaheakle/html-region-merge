@@ -14,7 +14,7 @@ class Merger {
   }
 
   private _readConfig() {
-    const rootDir = path.dirname(require.main.filename);
+    const rootDir = path.dirname(process.env.INIT_CWD);
     let file;
     try {
       file = fs.readFileSync(`${rootDir}/rfm-config.json`, {
