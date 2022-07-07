@@ -1,5 +1,6 @@
 {
-  "templateDir": "./src/testing",
-  "entry": "./src/testing/test.html",
-  "build": "./public/index.html"
+  "templateDir": "./testing",
+  "entry": "./testing/root.html",
+  "build": "./testing/build/index.html",
+  "runScript": "npm run html-merge"
 }

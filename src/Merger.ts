@@ -5,33 +5,11 @@ class Merger {
     templateDir: string;
     entry: string;
     build: string;
+    runScript: string;
   };
 
   constructor() {
-    this._readConfig();
-  }
-
-  private _readConfig() {
-    const rootDir = process.env.INIT_CWD;
-    let file;
-    try {
-      file = fs.readFileSync(`${rootDir}/rfm-config.json`, {
-        encoding: "utf8",
-      });
-    } catch {
-      throw new Error(
-        `Missing configuration file. Must be named "rfm-config.json" and must exist in the project's root directory.`
-      );
-    }
-    let config;
-    try {
-      config = JSON.parse(file);
-    } catch {
-      throw new Error(
-        `Configuration file in invalid format. "rfm-config.json" must be valid JSON.`
-      );
-    }
-    this.config = config;
+    this.config = getConfig();
   }
 
   mergeDocument(path?: string) {
@@ -53,24 +31,31 @@ class Merger {
         noRegions = false;
         for (const region of line.matchAll(regionRegEx)) {
           const nameIndex = region.toString().indexOf("name");
-          const dirIndex = region.toString().indexOf("dir");
+          let dirIndex = region.toString().indexOf("dir");
 
-          const nameStr = region.toString().substring(nameIndex, dirIndex);
-          const dirStr = region.toString().substring(dirIndex);
-
-          console.log({ nameStr, dirStr });
+          let nameStr;
+          let dirStr;
+          if (dirIndex === -1) {
+            nameStr = region.toString().match(nameRegEx).toString();
+          } else {
+            nameStr = region.toString().substring(nameIndex, dirIndex);
+            dirStr = region.toString().substring(dirIndex);
+          }
 
           const name = nameStr
             .replace(/ /g, "")
             .replace(/'/g, "")
             .replace(/name=/g, "")
             .replace(/"/g, "");
+
           const dir = dirStr
-            .replace(/ /g, "")
-            .replace(/\/>/g, "")
-            .replace(/'/g, "")
-            .replace(/dir=/g, "")
-            .replace(/"/g, "");
+            ? dirStr
+                .replace(/ /g, "")
+                .replace(/\/>/g, "")
+                .replace(/'/g, "")
+                .replace(/dir=/g, "")
+                .replace(/"/g, "")
+            : "";
 
           const htmlContent = this.getHTMLTemplate(name, dir === "" ? undefined : dir);
           newContent.push(htmlContent);
@@ -89,10 +74,38 @@ class Merger {
   }
 
   getHTMLTemplate(name: string, dir?: string) {
-    return fs.readFileSync(`${this.config.templateDir}/${name}.region.html`, {
-      encoding: "utf8",
-    });
+    let filePath = dir
+      ? `${this.config.templateDir}/${dir}/${name}.region.html`
+      : `${this.config.templateDir}/${name}.region.html`;
+    try {
+      return fs.readFileSync(filePath, {
+        encoding: "utf8",
+      });
+    } catch {
+      console.error(`No file found while searching for region document ${filePath}`);
+    }
   }
 }
+
+export const getConfig = () => {
+  const rootDir = process.env.INIT_CWD;
+  let file;
+  try {
+    file = fs.readFileSync(`${rootDir}/rfm-config.json`, {
+      encoding: "utf8",
+    });
+  } catch {
+    throw new Error(
+      `Missing configuration file. Must be named "rfm-config.json" and must exist in the project's root directory.`
+    );
+  }
+  let config;
+  try {
+    config = JSON.parse(file);
+  } catch {
+    throw new Error(`Configuration file in invalid format. "rfm-config.json" must be valid JSON.`);
+  }
+  return config;
+};
 
 export default Merger;
