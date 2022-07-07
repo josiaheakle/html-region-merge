@@ -40,6 +40,7 @@ class Merger {
 
     const regionRegEx = /<region.*\/>/g;
     const nameRegEx = /name=("|').*("|')/g;
+    const folderRegEx = /dir=("|').*("|')/g;
 
     let newContent: Array<string> = [];
 
@@ -51,14 +52,27 @@ class Merger {
       if (line.match(regionRegEx)) {
         noRegions = false;
         for (const region of line.matchAll(regionRegEx)) {
-          const name = region
-            .toString()
-            .match(nameRegEx)
-            .toString()
-            .replace('"', "")
-            .replace('"', "")
-            .replace("name=", "");
-          const htmlContent = this.getHTMLTemplate(name);
+          const nameIndex = region.toString().indexOf("name");
+          const dirIndex = region.toString().indexOf("dir");
+
+          const nameStr = region.toString().substring(nameIndex, dirIndex);
+          const dirStr = region.toString().substring(dirIndex);
+
+          console.log({ nameStr, dirStr });
+
+          const name = nameStr
+            .replace(/ /g, "")
+            .replace(/'/g, "")
+            .replace(/name=/g, "")
+            .replace(/"/g, "");
+          const dir = dirStr
+            .replace(/ /g, "")
+            .replace(/\/>/g, "")
+            .replace(/'/g, "")
+            .replace(/dir=/g, "")
+            .replace(/"/g, "");
+
+          const htmlContent = this.getHTMLTemplate(name, dir === "" ? undefined : dir);
           newContent.push(htmlContent);
         }
       } else {
@@ -74,7 +88,7 @@ class Merger {
     if (noRegions === false) this.mergeDocument(this.config.build);
   }
 
-  getHTMLTemplate(name: string) {
+  getHTMLTemplate(name: string, dir?: string) {
     return fs.readFileSync(`${this.config.templateDir}/${name}.region.html`, {
       encoding: "utf8",
     });
