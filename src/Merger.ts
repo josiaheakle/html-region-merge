@@ -13,6 +13,7 @@ class Merger {
   }
 
   mergeDocument(path?: string) {
+    console.log(`Merging documents!`);
     const mainHTML = fs.readFileSync(path ?? this.config.entry, { encoding: "utf8" });
     const htmlContent = mainHTML.split("\n");
 
@@ -55,6 +56,8 @@ class Merger {
                 .replace(/dir=/g, "")
                 .replace(/"/g, "")
             : "";
+
+          console.log(`Adding ${dir}/${name}.region.html`);
 
           const htmlContent = this.getHTMLTemplate(name, dir === "" ? undefined : dir);
           newContent.push(htmlContent);

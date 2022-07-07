@@ -1,7 +1,7 @@
 import path from "path";
 
 import { exec } from "child_process";
-import { getConfig } from "./Merger";
+import { getConfig } from "./Merger.js";
 
 export default function hmrPlugin() {
   return {

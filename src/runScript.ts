@@ -1,4 +1,4 @@
-import Merger from "./Merger";
+import Merger from "./Merger.js";
 
 (() => {
   const m = new Merger();
