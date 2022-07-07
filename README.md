@@ -22,3 +22,7 @@ To get started install the package using npm `npm install html-region-merge`. Cr
 ```
 
 ## Usage
+
+Create a central HTML file, adding `<region name="region-name">` in the place of a block of HTML.
+The script will search within the template directory (`templateDir`) for a file named `region-name.region.html` and replace the `<region />` element with the HTML.
+This script will create a new file specified by the `build` config and will overwrite any old documents. This will not overwrite the central HTML file, unless specified.

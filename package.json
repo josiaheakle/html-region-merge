@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "npx tsc"
+    "start": "npx tsc",
+    "test": "ts-node src/testing/test.ts"
   },
   "author": "",
   "license": "ISC",
