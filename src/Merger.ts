@@ -18,7 +18,6 @@ class Merger {
 
     const regionRegEx = /<region.*\/>/g;
     const nameRegEx = /name=("|').*("|')/g;
-    const folderRegEx = /dir=("|').*("|')/g;
 
     let newContent: Array<string> = [];
 
@@ -82,7 +81,7 @@ class Merger {
         encoding: "utf8",
       });
     } catch {
-      console.error(`No file found while searching for region document ${filePath}`);
+      console.log(`No file found while searching for region document ${filePath}`);
     }
   }
 }
@@ -95,7 +94,7 @@ export const getConfig = () => {
       encoding: "utf8",
     });
   } catch {
-    throw new Error(
+    console.log(
       `Missing configuration file. Must be named "rfm-config.json" and must exist in the project's root directory.`
     );
   }
@@ -103,7 +102,7 @@ export const getConfig = () => {
   try {
     config = JSON.parse(file);
   } catch {
-    throw new Error(`Configuration file in invalid format. "rfm-config.json" must be valid JSON.`);
+    console.log(`Configuration file in invalid format. "rfm-config.json" must be valid JSON.`);
   }
   return config;
 };
