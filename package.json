@@ -10,7 +10,7 @@
     "build": "npx tsc",
     "html-merge": "ts-node src/runScript.ts"
   },
-  "author": "",
+  "author": "Josiah Eakle",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.0.0",
