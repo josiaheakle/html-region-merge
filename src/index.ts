@@ -1,5 +1,5 @@
-import Merger from "./Merger.js";
-import hmrPlugin from "./vitePlugin.js";
+import Merger from "./Merger";
+import hmrPlugin from "./vitePlugin";
 
 export default Merger;
 export { hmrPlugin };
