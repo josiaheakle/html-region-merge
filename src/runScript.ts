@@ -1,6 +1,5 @@
-import Merger from "./Merger";
-
+import Merger from "./Merger.js";
 (() => {
-  const m = new Merger();
-  m.mergeDocument();
+	const m = new Merger();
+	m.mergeDocument();
 })();
