@@ -1,6 +1,6 @@
 {
 	"name": "html-region-merge",
-	"version": "0.5.3",
+	"version": "0.5.4",
 	"description": "A script built to easily split html documents when working with the Regional Model Framework",
 	"main": "dist/index.js",
 	"type": "module",
